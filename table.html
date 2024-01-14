@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Order System</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        div {
+            width: 45%;
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+        }
+
+        button {
+            padding: 10px;
+            margin: 5px;
+        }
+
+        #orderModule {
+            width: 45%;
+            display: none;
+        }
+
+        #orderModule ul {
+            list-style-type: none;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div>
+        <label for="dish">Dish:</label>
+        <input type="text" id="dish">
+        <label for="price">Price (INR):</label>
+        <input type="number" id="price" min="0">
+    </div>
+
+    <div>
+        <label for="table">Table</label>
+        <select id="table">
+            <option value="table1">Table 1</option>
+            <option value="table2">Table 2</option>
+            <option value="table3">Table 3</option>
+        </select>
+
+        
+        <button onclick="addToOrder()">Add to Order</button>
+    </div>
+
+    <div id="orderModule">
+        <h2 id="selectedTableHeading"></h2>
+        <h3>Order</h3>
+        <ul id="orderList"></ul>
+        <p>Total: ₹<span id="total">0.00</span></p>
+
+        
+    </div>
+
+    <script>
+        function addToOrder() {
+            var selectedTable = document.getElementById("table").value;
+            var dish = document.getElementById("dish").value;
+            var price = parseFloat(document.getElementById("price").value);
+
+            if (dish.trim() === "" || isNaN(price) || price < 0) {
+                alert("Please enter valid dish and price.");
+                return;
+            }
+
+            var orderList = document.getElementById("orderList");
+            var listItem = document.createElement("li");
+            listItem.textContent = dish + " - ₹" + price.toFixed(2);
+            orderList.appendChild(listItem);
+
+            var totalElement = document.getElementById("total");
+            var currentTotal = parseFloat(totalElement.textContent);
+            totalElement.textContent = (currentTotal + price).toFixed(2);
+
+            // Display the order module and set the selected table heading
+            document.getElementById("selectedTableHeading").textContent = "Table: " + selectedTable;
+            document.getElementById("orderModule").style.display = "block";
+        }
+    </script>
+
+</body>
+</html>
